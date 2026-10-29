@@ -11,7 +11,7 @@ export const numeri = [
     nome: 'Il Matto',
     romano: '0',      // il numero romano gigante nell'apertura
     disponibile: true,
-    carta: '',        // la tua carta disegnata, es. '/carte/matto.png' (vuoto = nessuna immagine)
+    carta: '/carte/matto.png',        // la tua carta disegnata, es. '/carte/matto.png' (vuoto = nessuna immagine)
     lati: {
       A: {
         nome: 'Il Matto',      // il nome di questo lato
@@ -66,7 +66,7 @@ export const numeri = [
     nome: 'Il Bagatto',
     romano: 'I',      // il numero romano gigante nell'apertura
     disponibile: true,
-    carta: '',        // la tua carta disegnata, es. '/carte/matto.png' (vuoto = nessuna immagine)
+    carta: '/carte/bagatto.png',        // la tua carta disegnata, es. '/carte/matto.png' (vuoto = nessuna immagine)
     lati: {
       A: {
         nome: 'Lato A',
@@ -130,11 +130,11 @@ export const numeri = [
   },
 
   // I PROSSIMI NUMERI: "disponibile: false" = in homepage appaiono bloccati
-  { id: '02', nome: 'La Papessa', disponibile: false },
-  { id: '03', nome: "L'Imperatrice", disponibile: false },
-  { id: '04', nome: "L'Imperatore", disponibile: false },
-  { id: '05', nome: 'Il Papa', disponibile: false },
-  { id: '06', nome: 'Gli Amanti', disponibile: false },
+  { id: '02', nome: 'La Papessa', disponibile: false, carta: '/carte/papessa.png' },
+  { id: '03', nome: "L'Imperatrice", disponibile: false, carta: '/carte/imperatrice.png' },
+  { id: '04', nome: "L'Imperatore", disponibile: false, carta: '/carte/imperatore.png' },
+  { id: '05', nome: 'Il Papa', disponibile: false, carta: '/carte/papa.png' },
+  { id: '06', nome: 'Gli Amanti', disponibile: false, carta: '/carte/amanti.png' },
   { id: '07', nome: 'Il Carro', disponibile: false },
   { id: '08', nome: 'La Giustizia', disponibile: false },
   { id: '09', nome: "L'Eremita", disponibile: false },

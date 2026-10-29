@@ -34,11 +34,21 @@ const emit = defineEmits(['cambia-lato'])
     <section class="apertura">
       <RouterLink to="/" class="indietro">← Torna alla collana</RouterLink>
 
+      <!-- carta a sinistra e testi a destra, uno accanto all'altro -->
       <div class="titolo">
-        <p class="romano">{{ numero.romano }}</p>
-        <h1>{{ numero.nome }}</h1>
-        <p class="etichetta">N°{{ numero.id }} · {{ lato.nome }}</p>
-        <img v-if="numero.carta" :src="numero.carta" :alt="numero.nome" class="carta" />
+        <!-- sul lato B aggiungiamo la classe "capovolta": la rivista è girata, quindi anche la carta -->
+        <img
+          v-if="numero.carta"
+          :src="numero.carta"
+          :alt="numero.nome"
+          class="carta"
+          :class="{ capovolta: lato === numero.lati.B }"
+        />
+        <div class="testi">
+          <p class="romano">{{ numero.romano }}</p>
+          <h1>{{ numero.nome }}</h1>
+          <p class="etichetta">N°{{ numero.id }} · {{ lato.nome }}</p>
+        </div>
       </div>
 
       <p class="scorri">↓ scorri</p>
@@ -121,26 +131,42 @@ const emit = defineEmits(['cambia-lato'])
   font-size: 14px;
 }
 
+/* flex mette carta e testi uno ACCANTO all'altro (non uno sotto l'altro):
+   così l'apertura occupa meno spazio in altezza */
 .titolo {
+  display: flex;
+  align-items: center;          /* carta e testi centrati in verticale tra loro */
+  justify-content: center;      /* il gruppo sta al centro della pagina */
+  gap: clamp(24px, 5vw, 72px);  /* spazio tra carta e testi */
   text-align: center;
 }
 
+/* se c'è la carta, i testi si allineano a sinistra, vicino alla carta */
+.titolo:has(.carta) .testi {
+  text-align: left;
+}
+
 .romano {
-  font-size: clamp(120px, 25vw, 320px);   /* gigante, ma si adatta allo schermo */
+  font-size: clamp(80px, 16vw, 220px);   /* gigante, ma si adatta allo schermo */
   line-height: 1;
   margin: 0;
 }
 
 h1 {
-  font-size: clamp(40px, 7vw, 96px);
+  font-size: clamp(28px, 6vw, 80px);
   margin: 0;
   text-transform: uppercase;
 }
 
 .carta {
-  width: 220px;
-  margin: 32px auto 0;
+  width: clamp(110px, 22vw, 280px);   /* si rimpicciolisce sugli schermi piccoli */
+  flex-shrink: 0;                     /* la carta non si schiaccia */
   display: block;
+}
+
+/* lato B: la carta è a testa in giù, come quando giri la rivista */
+.capovolta {
+  transform: rotate(180deg);
 }
 
 .scorri {

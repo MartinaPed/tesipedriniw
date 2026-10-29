@@ -37,17 +37,37 @@ defineProps({
   justify-content: space-between;
   flex-shrink: 0;               /* nella fila il riquadro non si schiaccia */
   scroll-snap-align: start;     /* punto di "aggancio" quando scorri */
+  transition: transform 0.25s ease;   /* quando cambia dimensione, lo fa con calma */
 }
 
-/* quando c'è la carta disegnata, l'immagine riempie tutto il riquadro */
+/* PASSAGGIO DEL MOUSE: la carta si allarga un po'.
+   @media (hover: hover) = solo sui dispositivi che hanno davvero un mouse,
+   così su telefono e tablet non succede.
+   a:hover = solo le carte cliccabili (sono dentro un link) */
+@media (hover: hover) {
+  a:hover > .riquadro {
+    transform: scale(1.03);       /* 1 = grandezza normale, 1.03 = 3% più grande */
+  }
+}
+
+/* quando c'è la carta disegnata, l'immagine riempie tutto il riquadro:
+   niente bordo nero, e angoli smussati come la carta */
 .riquadro:has(.carta) {
   padding: 0;
+  border: none;
+  border-radius: 12px;          /* smussa gli angoli del riquadro... */
+  overflow: hidden;             /* ...e taglia tutto ciò che esce dalla curva */
 }
 
 .carta {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* carta disegnata ma numero non ancora uscito: un po' sbiadita */
+.bloccato .carta {
+  opacity: 0.45;
 }
 
 .numero {
