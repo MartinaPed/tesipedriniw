@@ -1,0 +1,21 @@
+/* Stili globali: valgono per tutto il sito */
+
+/* le misure (width, height) includono anche padding e bordo:
+   così una carta larga 150px resta larga 150px, anche col bordo */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* quando navighi con la tastiera (Tab), l'elemento selezionato ha un contorno
+   dello stesso colore del testo della pagina: si vede su ogni sfondo */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
