@@ -1,5 +1,15 @@
 /* Stili globali: valgono per tutto il sito */
 
+/* VARIABILI: i colori e i caratteri di base, scritti una volta sola.
+   Per usarli altrove si scrive var(--nome), es. color: var(--inchiostro) */
+:root {
+  --carta: #F3EEE4;          /* il fondo color carta della homepage */
+  --inchiostro: #1C1A17;     /* il nero caldo, come l'inchiostro */
+  --grigio: #5E584F;         /* testi secondari (si legge bene sulla carta: 6:1) */
+  --titoli: 'Cormorant Garamond', Georgia, serif;   /* i titoli, con le grazie */
+  --testi: 'DM Sans', Arial, sans-serif;           /* i testi da leggere */
+}
+
 /* le misure (width, height) includono anche padding e bordo:
    così una carta larga 150px resta larga 150px, anche col bordo */
 *,
@@ -17,5 +27,38 @@
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: var(--testi);
+  background: var(--carta);
+  color: var(--inchiostro);
+}
+
+/* LA FASCIA CHE SCORRE: la usiamo in homepage e nelle pagine dei numeri.
+   Dentro ci sono due copie della stessa frase: quando la prima è uscita tutta,
+   la seconda è esattamente al suo posto, e l'animazione ricomincia senza salti. */
+.fascia {
+  overflow: hidden;            /* quello che esce dai bordi non si vede */
+  white-space: nowrap;         /* tutto su una riga */
+  padding: 22px 0;
+}
+
+.fascia-binario {
+  display: inline-flex;
+  animation: scorri 40s linear infinite;
+}
+
+.fascia-binario span {
+  font-family: var(--titoli);
+  font-style: italic;
+  font-size: 34px;
+  padding-right: 28px;
+}
+
+@keyframes scorri {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }   /* -50% = esattamente una copia */
+}
+
+/* chi ha chiesto al computer "meno animazioni" vede la fascia ferma */
+@media (prefers-reduced-motion: reduce) {
+  .fascia-binario { animation: none; }
 }

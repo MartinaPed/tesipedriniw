@@ -7,10 +7,14 @@
     3. le carte scelte escono dal mazzo e vanno al loro posto;
        quando ci sono tutte, si girano una dopo l'altra
     4. "Nuova lettura" rimescola il mazzo: le carte cambiano posizione
+  Il mazzo è aperto a ventaglio: ogni carta è ruotata di qualche grado in più
+  della precedente (vedi --i nello stile). Quando il mazzo si rimescola,
+  ogni carta ruota fino al suo nuovo posto nel ventaglio.
 -->
 <script setup>
 import { ref, computed, nextTick } from 'vue'
 import { tarocchi, stese, PROBABILITA_ROVESCIATA } from '../../data/tarocchi.js'
+import { publicAssetUrl } from '../../utils/publicAssetUrl.js'
 
 // mescola un mazzo: algoritmo di Fisher-Yates (scambia ogni carta con una a caso)
 function mescola(carte) {
@@ -48,7 +52,7 @@ function giaPescata(carta) {
 
 // il testo che guida chi gioca
 const guida = computed(() => {
-  if (!stesaScelta.value) return 'Pensa alla tua domanda, poi scegli la stesa.'
+  if (!stesaScelta.value) return 'Prima scegli la stesa, poi pesca le carte.'
   if (mancano.value === 0) return completa.value ? '' : 'Le carte si stanno girando…'
   if (mancano.value === 1 && pescate.value.length === 0) return 'Scegli una carta dal mazzo.'
   return mancano.value === 1 ? 'Scegli l’ultima carta.' : `Scegli ${mancano.value} carte dal mazzo.`
@@ -96,89 +100,139 @@ const tavolo = ref(null)
   <div class="lettura">
 
     <!-- 1. LA SCELTA DELLA STESA -->
-    <div class="stese" role="group" aria-label="Scegli la stesa">
-      <button
-        v-for="stesa in stese"
-        :key="stesa.id"
-        class="stesa"
-        :class="{ attiva: stesaScelta?.id === stesa.id }"
-        :aria-pressed="stesaScelta?.id === stesa.id"
-        @click="scegliStesa(stesa)"
-      >
-        <span class="schema">
-          <span v-for="(p, i) in stesa.posizioni" :key="i" class="mini-carta"></span>
-        </span>
-        <span class="stesa-nome">{{ stesa.nome }}</span>
-        <span class="stesa-sotto">{{ stesa.sottotitolo }}</span>
-      </button>
-    </div>
+    <section class="sezione">
+      <h2 class="titolo"><span class="indice">01</span> Scegli la stesa</h2>
+      <p class="guida">Pensa alla tua domanda, poi scegli la stesa</p>
 
-    <p v-if="stesaScelta" class="descrizione">{{ stesaScelta.descrizione }}</p>
-    <p class="guida" aria-live="polite">{{ guida }}</p>
-
-    <!-- 2. IL MAZZO, tutto coperto.
-         <TransitionGroup> fa scivolare le carte nella nuova posizione quando il mazzo si rimescola -->
-    <TransitionGroup tag="div" name="mescola" class="mazzo" :class="{ attivo: stesaScelta && mancano > 0 }">
-      <button
-        v-for="(carta, i) in mazzo"
-        :key="carta.id"
-        class="dorso carta-mazzo"
-        :class="{ pescata: giaPescata(carta) }"
-        :disabled="!stesaScelta || mancano === 0 || giaPescata(carta)"
-        :aria-label="'Carta coperta numero ' + (i + 1)"
-        @click="pesca(carta)"
-      ></button>
-    </TransitionGroup>
-
-    <!-- 3. IL TAVOLO: le carte pescate, al loro posto -->
-    <!-- il tavolo sta al centro; con la carta singola la carta è più grande (classe "singola") -->
-    <div v-if="stesaScelta" ref="tavolo" class="tavolo" :class="{ singola: stesaScelta.id === 'singola' }">
-      <div v-for="(posizione, i) in stesaScelta.posizioni" :key="posizione.nome" class="posto">
-        <p class="nome-posizione">{{ posizione.nome }}</p>
-
-        <!-- posto ancora vuoto -->
-        <div v-if="!pescate[i]" class="vuoto"></div>
-
-        <!-- la carta pescata: davanti il dorso, dietro la figura -->
-        <div v-else class="carta" :class="{ scoperta: pescate[i].scoperta }">
-          <span class="faccia dorso"></span>
-          <span class="faccia fronte">
-            <!-- se esce rovesciata, la figura è capovolta, come sul tavolo -->
-            <span class="figura" :class="{ capovolta: pescate[i].rovesciata }">
-              <img v-if="pescate[i].carta.immagine" :src="pescate[i].carta.immagine" :alt="pescate[i].carta.nome" />
-              <template v-else>
-                <span class="romano">{{ pescate[i].carta.romano }}</span>
-                <span class="nome-carta">{{ pescate[i].carta.nome }}</span>
-              </template>
-            </span>
+      <div class="stese" role="group" aria-label="Scegli la stesa">
+        <button
+          v-for="stesa in stese"
+          :key="stesa.id"
+          class="stesa"
+          :class="{ attiva: stesaScelta?.id === stesa.id }"
+          :aria-pressed="stesaScelta?.id === stesa.id"
+          @click="scegliStesa(stesa)"
+        >
+          <!-- lo schema: un rettangolino per ogni carta della stesa -->
+          <span class="schema">
+            <span v-for="(p, i) in stesa.posizioni" :key="i" class="mini-carta"></span>
           </span>
-        </div>
-
-        <!-- il significato compare quando la carta si è girata -->
-        <Transition name="appare">
-          <div v-if="pescate[i]?.scoperta" class="significato">
-            <p class="titolo-carta">{{ pescate[i].carta.nome }}</p>
-            <span v-if="pescate[i].rovesciata" class="rovesciata">rovesciata</span>
-            <p>{{ pescate[i].rovesciata ? pescate[i].carta.rovesciato : pescate[i].carta.dritto }}</p>
-          </div>
-        </Transition>
+          <span class="stesa-nome">{{ stesa.nome }}</span>
+          <span class="stesa-sotto">{{ stesa.sottotitolo }}</span>
+          <span class="stesa-descrizione">{{ stesa.descrizione }}</span>
+          <span v-if="stesaScelta?.id === stesa.id" class="scelta">✓ scelta</span>
+        </button>
       </div>
-    </div>
+    </section>
 
-    <button v-if="completa" class="tasto" @click="nuovaLettura">↻ Nuova lettura</button>
+    <!-- 2. IL MAZZO A VENTAGLIO, tutto coperto -->
+    <section class="sezione">
+      <h2 class="titolo"><span class="indice">02</span> Pesca dal mazzo</h2>
+      <p class="guida" aria-live="polite">{{ guida || 'Ecco la tua lettura.' }}</p>
+
+      <!-- --i = la posizione della carta nel ventaglio (0, 1, 2...):
+           lo stile la usa per calcolare quanto ruotarla -->
+      <div class="mazzo" :class="{ attivo: stesaScelta && mancano > 0 }" :style="{ '--n': mazzo.length }">
+        <button
+          v-for="(carta, i) in mazzo"
+          :key="carta.id"
+          class="dorso carta-mazzo"
+          :class="{ pescata: giaPescata(carta) }"
+          :style="{ '--i': i }"
+          :disabled="!stesaScelta || mancano === 0 || giaPescata(carta)"
+          :aria-label="'Carta coperta numero ' + (i + 1)"
+          @click="pesca(carta)"
+        ></button>
+      </div>
+    </section>
+
+    <!-- 3. IL TAVOLO: le carte pescate, al loro posto (compare dopo aver scelto la stesa) -->
+    <section v-if="stesaScelta" ref="tavolo" class="sezione">
+      <h2 class="titolo"><span class="indice">03</span> La lettura</h2>
+
+      <!-- con la carta singola la carta è più grande (classe "singola") -->
+      <div class="tavolo" :class="{ singola: stesaScelta.id === 'singola' }">
+        <div v-for="(posizione, i) in stesaScelta.posizioni" :key="posizione.nome" class="posto">
+          <p class="nome-posizione">{{ posizione.nome }}</p>
+
+          <!-- posto ancora vuoto -->
+          <div v-if="!pescate[i]" class="vuoto"></div>
+
+          <!-- la carta pescata: davanti il dorso, dietro la figura -->
+          <div v-else class="carta" :class="{ scoperta: pescate[i].scoperta }">
+            <span class="faccia dorso"></span>
+            <span class="faccia fronte">
+              <!-- se esce rovesciata, la figura è capovolta, come sul tavolo -->
+              <span class="figura" :class="{ capovolta: pescate[i].rovesciata }">
+                <img v-if="pescate[i].carta.immagine" :src="publicAssetUrl(pescate[i].carta.immagine)" :alt="pescate[i].carta.nome" />
+                <template v-else>
+                  <span class="romano">{{ pescate[i].carta.romano }}</span>
+                  <span class="nome-carta">{{ pescate[i].carta.nome }}</span>
+                </template>
+              </span>
+            </span>
+          </div>
+
+          <!-- il significato compare quando la carta si è girata -->
+          <Transition name="appare">
+            <div v-if="pescate[i]?.scoperta" class="significato">
+              <p class="titolo-carta">{{ pescate[i].carta.nome }}</p>
+              <span v-if="pescate[i].rovesciata" class="rovesciata">rovesciata</span>
+              <p>{{ pescate[i].rovesciata ? pescate[i].carta.rovesciato : pescate[i].carta.dritto }}</p>
+            </div>
+          </Transition>
+        </div>
+      </div>
+
+      <button v-if="completa" class="tasto" @click="nuovaLettura">
+        <span class="giro">↻</span> Nuova lettura
+      </button>
+    </section>
   </div>
 </template>
 
 <style scoped>
-.lettura {
-  padding-bottom: 64px;
+/* ── SEZIONI ── */
+.sezione {
+  padding: 110px 100px;
+}
+
+.sezione + .sezione {
+  border-top: 1px solid currentColor;
+}
+
+/* il titolo di ogni passaggio: "01 Scegli la stesa" */
+.titolo {
+  font-family: var(--titoli);
+  font-weight: 300;
+  font-size: clamp(40px, 4.5vw, 56px);
+  line-height: 1;
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 28px;
+}
+
+.indice {
+  font-family: var(--testi);
+  font-weight: 200;
+  font-size: 1.15em;
+}
+
+.guida {
+  min-height: 1.5em;           /* lo spazio resta anche quando il testo cambia: niente salti */
+  margin: 40px 0 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
 }
 
 /* ── 1. LE DUE STESE ── */
 .stese {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 40px;
 }
 
 .stesa {
@@ -186,85 +240,93 @@ const tavolo = ref(null)
   color: inherit;
   text-align: left;
   background: transparent;
-  border: 1px solid currentColor;
-  padding: 20px 24px;
-  min-width: 240px;
+  border: 1px solid color-mix(in srgb, currentColor 50%, transparent);
+  border-radius: 4px;
+  padding: 40px;
   cursor: pointer;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 20px;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  transition: border-color 0.2s;
 }
 
 .stesa:hover {
-  border-width: 2px;
-  padding: 19px 23px;          /* compensa il bordo più spesso: niente "salti" */
+  border-color: currentColor;
 }
 
-/* la stesa scelta: colori invertiti */
+/* la stesa scelta: fondo color carta e testo del colore della pagina */
 .stesa.attiva {
-  background: currentColor;
-}
-.stesa.attiva > * {
-  color: var(--sfondo, #000);
-}
-.stesa.attiva .mini-carta {
-  border-color: var(--sfondo, #000);
+  background: var(--carta);
+  border-color: var(--carta);
+  color: var(--sfondo);
 }
 
 .schema {
-  grid-row: span 2;
   display: flex;
-  gap: 4px;
+  gap: 8px;
 }
 
 .mini-carta {
-  width: 18px;
+  width: 28px;
   aspect-ratio: 7 / 12;
   border: 1px solid currentColor;
+  border-radius: 3px;
 }
 
 .stesa-nome {
-  font-size: 22px;
-  font-weight: bold;
+  font-family: var(--titoli);
+  font-weight: 300;
+  font-size: clamp(36px, 3.6vw, 52px);
+  line-height: 1;
 }
 
 .stesa-sotto {
+  font-family: var(--titoli);
   font-style: italic;
+  font-size: 22px;
+  margin-top: -8px;
 }
 
-.descrizione {
-  max-width: 640px;
-  margin: 24px 0 0;
-  line-height: 1.5;
+.stesa-descrizione {
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 500px;
 }
 
-.guida {
-  min-height: 1.5em;           /* lo spazio resta anche quando il testo è vuoto: niente salti */
-  margin: 24px 0 0;
-  font-size: 14px;
+.scelta {
+  font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
 }
 
-/* ── 2. IL MAZZO A VENTAGLIO ── */
+/* ── 2. IL MAZZO A VENTAGLIO ──
+   Tutte le carte partono dallo stesso punto, al centro.
+   Ognuna ruota attorno a un punto lontano, sotto il mazzo (transform-origin):
+   così, ruotandole di gradi diversi, si dispongono su un arco. */
 .mazzo {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;     /* anche il mazzo al centro, in linea con le carte sotto */
-  padding: 32px 0 32px 40px;   /* lo spazio a sinistra compensa la sovrapposizione */
-  row-gap: 24px;
+  --apertura: 60deg;            /* quanto è aperto il ventaglio, dalla prima all'ultima carta */
+  --raggio: 900px;              /* quanto è lontano il centro dell'arco: più è grande, più l'arco è piatto */
+  position: relative;
+  height: 380px;
+  margin-top: 40px;
+  overflow-x: clip;             /* se una carta esce dai lati, non allarga la pagina */
 }
 
 .carta-mazzo {
-  width: 80px;
+  position: absolute;
+  top: 40px;
+  left: calc(50% - 42px);       /* il centro della carta sta al centro del mazzo */
+  width: 84px;
   aspect-ratio: 7 / 12;
-  margin-left: -40px;           /* ogni carta copre metà della precedente */
   padding: 0;
   font: inherit;
   color: inherit;
   cursor: default;
-  transition: transform 0.25s, opacity 0.3s;
+  transform-origin: 50% var(--raggio);
+  /* la prima carta ruota di -30°, l'ultima di +30°, le altre in mezzo */
+  rotate: calc(var(--apertura) * (var(--i) / (var(--n) - 1) - 0.5));
+  transition: rotate 0.7s ease, translate 0.25s ease, opacity 0.3s;
 }
 
 /* quando si può pescare, le carte si alzano al passaggio del mouse */
@@ -273,13 +335,13 @@ const tavolo = ref(null)
 }
 .mazzo.attivo .carta-mazzo:not(:disabled):hover,
 .mazzo.attivo .carta-mazzo:not(:disabled):focus-visible {
-  transform: translateY(-18px);
+  translate: 0 -24px;
 }
 
 /* la carta pescata "esce" dal mazzo: resta il suo posto vuoto */
 .carta-mazzo.pescata {
   opacity: 0;
-  transform: translateY(-40px);
+  translate: 0 -60px;
 }
 
 /* il mazzo spento finché non scegli la stesa */
@@ -287,23 +349,25 @@ const tavolo = ref(null)
   opacity: 0.6;
 }
 
-/* l'animazione del rimescolamento: le carte scivolano al nuovo posto */
-.mescola-move {
-  transition: transform 0.7s ease;
+/* ── IL DORSO DELLE CARTE: colore scuro della pagina, cornice sottile, stellina ── */
+.dorso {
+  border: 1px solid color-mix(in srgb, currentColor 80%, transparent);
+  border-radius: 6px;
+  background: var(--sfumatura, #222);
+  /* la cornice interna, come sul dorso delle carte vere */
+  box-shadow:
+    inset 0 0 0 5px var(--sfumatura, #222),
+    inset 0 0 0 6px color-mix(in srgb, currentColor 45%, transparent),
+    0 14px 30px -8px rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* ── IL DORSO DELLE CARTE ── */
-.dorso {
-  border: 1px solid currentColor;
-  background-color: var(--sfondo, #222);
-  /* righe diagonali sottili dello stesso colore del testo */
-  background-image: repeating-linear-gradient(
-    45deg,
-    transparent 0 7px,
-    color-mix(in srgb, currentColor 30%, transparent) 7px 8px
-  );
-  /* una cornice interna, come sul dorso delle carte vere */
-  box-shadow: inset 0 0 0 4px var(--sfondo, #222), inset 0 0 0 5px currentColor;
+/* la stellina al centro del dorso */
+.dorso::after {
+  content: '✦';
+  font-size: 20px;
 }
 
 /* ── 3. IL TAVOLO ── */
@@ -312,30 +376,30 @@ const tavolo = ref(null)
   flex-wrap: wrap;
   justify-content: center;     /* le carte al centro dello schermo */
   text-align: center;
-  gap: 40px;
-  margin-top: 16px;
-  scroll-margin-top: 24px;
+  gap: 64px;
+  margin-top: 64px;
 }
 
 .posto {
-  width: 200px;
+  width: 260px;
 }
 
 /* CARTA SINGOLA: la carta è un po' più grande */
 .tavolo.singola .posto {
-  width: 260px;
+  width: 320px;
 }
 
 .nome-posizione {
-  font-size: 13px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 3px;
-  margin: 0 0 12px;
+  margin: 0 0 16px;
 }
 
 .vuoto {
   aspect-ratio: 7 / 12;
   border: 1px dashed currentColor;
+  border-radius: 12px;
   opacity: 0.6;
 }
 
@@ -363,6 +427,11 @@ const tavolo = ref(null)
   position: absolute;
   inset: 0;
   backface-visibility: hidden;           /* la faccia girata di spalle non si vede */
+  border-radius: 12px;
+}
+
+.dorso.faccia::after {
+  font-size: 40px;
 }
 
 .fronte {
@@ -370,6 +439,7 @@ const tavolo = ref(null)
   border: 1px solid currentColor;
   display: flex;
   overflow: hidden;
+  box-shadow: 0 18px 40px -8px rgba(0, 0, 0, 0.45);
 }
 
 .figura {
@@ -402,35 +472,42 @@ const tavolo = ref(null)
 }
 
 .romano {
-  font-size: 48px;
+  font-family: var(--titoli);
+  font-weight: 300;
+  font-size: 56px;
   line-height: 1;
 }
 
 .nome-carta {
-  font-size: 18px;
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
 
 .significato {
-  margin-top: 16px;
-  line-height: 1.5;
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 .titolo-carta {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 0;
+  font-family: var(--titoli);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 40px;
+  line-height: 1;
+  margin: 0 0 4px;
 }
 
 .rovesciata {
   display: inline-block;
-  margin-top: 6px;
+  margin-top: 8px;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 2px;
   border: 1px solid currentColor;
-  padding: 1px 6px;
+  border-radius: 20px;
+  padding: 2px 10px;
 }
 
 /* il significato compare dolcemente */
@@ -444,40 +521,64 @@ const tavolo = ref(null)
 /* ── TASTO NUOVA LETTURA ── */
 .tasto {
   display: block;              /* il tasto sta al centro, sotto le carte */
-  margin: 40px auto 0;
-  font: inherit;
-  font-size: 20px;
-  padding: 16px 40px;
+  margin: 80px auto 0;
+  font-family: var(--titoli);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(48px, 6vw, 88px);
+  line-height: 1;
+  padding: 0;
   background: transparent;
   color: inherit;
-  border: 2px solid currentColor;
+  border: none;
   cursor: pointer;
 }
 
-/* passandoci sopra i colori si invertono */
 .tasto:hover {
-  background: currentColor;
-  color: var(--sfondo, #000);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 10px;
+}
+
+/* il simbolo ↻: Cormorant non ce l'ha, quindi usiamo DM Sans sottile */
+.giro {
+  font-family: var(--testi);
+  font-weight: 200;
 }
 
 /* chi ha chiesto al computer di ridurre le animazioni non vede le carte muoversi */
 @media (prefers-reduced-motion: reduce) {
   .carta,
-  .mescola-move,
   .carta-mazzo {
     transition: none;
     animation: none;
   }
 }
 
-/* sul telefono: carte del mazzo più piccole, due carte per riga sul tavolo */
-@media (max-width: 600px) {
+/* ── SCHERMI PICCOLI ── */
+@media (max-width: 900px) {
+  .sezione {
+    padding: 80px 24px;
+  }
+  .stese {
+    grid-template-columns: 1fr;
+  }
+  .stesa {
+    padding: 28px;
+  }
+  /* sul telefono il ventaglio è più piccolo e più aperto */
   .mazzo {
-    padding-left: 28px;
+    --apertura: 70deg;
+    --raggio: 280px;
+    height: 210px;
   }
   .carta-mazzo {
-    width: 56px;
-    margin-left: -28px;
+    width: 48px;
+    left: calc(50% - 24px);
+    top: 24px;
+  }
+  .dorso::after {
+    font-size: 12px;
   }
   .tavolo {
     gap: 24px;
@@ -487,10 +588,6 @@ const tavolo = ref(null)
   }
   .tavolo.singola .posto {
     width: 70%;
-  }
-  .stesa {
-    min-width: 0;
-    width: 100%;
   }
 }
 </style>

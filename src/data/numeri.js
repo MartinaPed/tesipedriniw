@@ -19,9 +19,21 @@ export const numeri = [
         sfumatura: '#14353D', // ottanio più scuro: la pagina sfuma verso questo colore in basso
         testo: '#FFFFFF',    // colore del testo sopra quello sfondo
 
-        // 2. EDITORIALE: ogni testo tra virgolette è un paragrafo
+        // le frasi che scorrono sotto l'apertura, una dopo l'altra (puoi aggiungerne quante vuoi)
+        fascia: [
+          'Lo zero è una soglia, non un inizio',
+          'Il passo che già sporge oltre il margine',
+          'Non sappiamo se cadrà o se camminerà sull’aria',
+          'Il piede è già sollevato ma non ancora posato',
+          'Non posate ancora il piede'
+        ],
+
+        // 2. EDITORIALE
+        // citazione = la frase d'apertura, scritta in grande
+        // editoriale = i paragrafi su due colonne (ogni testo tra virgolette è un paragrafo)
+        citazione: 'Lo zero è una soglia, non un inizio. Il Matto è l’unica carta senza un posto fisso nel mazzo.',
         editoriale: [
-          "Lo zero è una soglia, non un inizio. Il Matto è l’unica carta senza un posto fisso nel mazzo: lo sguardo alto, il passo che già sporge oltre il margine, il vuoto sotto di lui. Non sappiamo se cadrà o se camminerà sull’aria. Non lo sa nemmeno lui.",
+          "Lo sguardo alto, il passo che già sporge oltre il margine, il vuoto sotto di lui. Non sappiamo se cadrà o se camminerà sull’aria. Non lo sa nemmeno lui.",
           "Questo lato della rivista guarda verso l’interno. Racconta da dove viene il Matto e come è cambiato il suo volto nei secoli, legge uno per uno i simboli della carta, segue le sue tracce nella Londra esoterica e tra le teorie di Mesmer, de Gébelin e Freud, fino al cinema e alle parole di chi le carte le legge ogni giorno.",
           "È lo spazio della soglienza: l’istante in cui il piede è già sollevato ma non ancora posato. Queste pagine non vi chiedono di credere in niente. Vi chiedono solo di non posare ancora il piede."
         ],
@@ -32,7 +44,11 @@ export const numeri = [
             id: 'mazzo-colleoni',
             titolo: 'Il mazzo Colleoni',
             sottotitolo: 'Gli arcani dipinti a mano nel Quattrocento',
-            anteprima: 'Uno dei mazzi di tarocchi più antichi giunti fino a noi, oggi diviso tra Bergamo e New York. Sfoglialo carta per carta: scopri dove è conservata ognuna e cosa rappresenta.'
+            anteprima: 'Uno dei mazzi di tarocchi più antichi giunti fino a noi, oggi diviso tra Bergamo e New York. Sfoglialo carta per carta: scopri dove è conservata ognuna e cosa rappresenta.',
+            // le 3 carte del ventaglio accanto al titolo (senza "ventaglio" = 3 carte coperte)
+            ventaglio: ['/colleoni/bagatto.jpg', '/colleoni/mondo.jpg', '/colleoni/matto.jpg'],
+            // le frasi che scorrono nella pagina dell'approfondimento
+            fascia: ['Bonifacio Bembo', '1450–1480 circa', 'Dipinto per gli Sforza', 'The Morgan Library, New York', 'Accademia Carrara, Bergamo']
           }
         ]
       },
@@ -42,9 +58,18 @@ export const numeri = [
         sfumatura: '#57184B', // viola più scuro
         testo: '#FFFFFF',    // colore del testo sopra quello sfondo
 
-        // 2. EDITORIALE: ogni testo tra virgolette è un paragrafo
+        fascia: [
+          'Attraversate, oppure restate fermi',
+          'Non cammina verso qualcosa: cammina, e basta',
+          'La soglia è ormai alle spalle',
+          'Il passaggio come atto rituale',
+          'Una volta dentro il varco, non c’è più un lato da cui tornare'
+        ],
+
+        // 2. EDITORIALE
+        citazione: 'Avete capovolto la rivista e siete passati dall’altra parte. Qui il Matto diventa il Viandante.',
         editoriale: [
-          "Avete capovolto la rivista e siete passati dall’altra parte. Qui il Matto diventa il Viandante: la soglia è ormai alle spalle e nessuna terra è ancora sotto i piedi. Non cammina verso qualcosa: cammina, e basta.",
+          "La soglia è ormai alle spalle e nessuna terra è ancora sotto i piedi. Non cammina verso qualcosa: cammina, e basta.",
           "Questo è il lato della materia, del gesto e della pratica. Ci sono i riti di magia bianca del primo passo, le stese dalla carta singola alla Croce Celtica, il viaggio del Matto attraverso le ventuno porte degli Arcani e la sua faccia in ombra, quando esce rovesciato. E ci sono gli oggetti che trattengono qualcosa di invisibile.",
           "È lo spazio della varcanza: il passaggio come atto rituale. Attraversate, oppure restate fermi. Ma sappiate che, una volta dentro il varco, non c’è più un lato da cui tornare."
         ],
@@ -55,7 +80,8 @@ export const numeri = [
             id: 'lettura-carte',
             titolo: 'La lettura delle carte',
             sottotitolo: 'Il primo passo del Viandante',
-            anteprima: 'Pesca le tue carte e lasciati leggere dal Matto.'
+            anteprima: 'Pesca le tue carte e lasciati leggere dal Matto.',
+            fascia: ['Pensa alla tua domanda', 'Scegli la stesa', 'Pesca dal mazzo', 'Lascia che le carte si girino', 'Leggi']
           }
         ]
       }

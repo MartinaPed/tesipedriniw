@@ -5,8 +5,10 @@
 -->
 <template>
   <footer class="footer">
-    <p class="nome">Arcanamente</p>
-    <p class="descrizione">Collana di riviste di cultura esoterica</p>
+    <div>
+      <p class="nome">Arcanamente</p>
+      <p class="descrizione">Collana di riviste di cultura esoterica</p>
+    </div>
 
     <div class="crediti">
       <p>Progetto di tesi di Martina Pedrini</p>
@@ -19,29 +21,46 @@
 
 <style scoped>
 .footer {
-  padding: 40px;
-  border-top: 2px solid currentColor;   /* la linea prende il colore del testo della pagina */
-  text-align: center;
+  display: flex;
+  justify-content: space-between;     /* nome a sinistra, crediti a destra */
+  align-items: flex-start;
+  flex-wrap: wrap;                    /* sul telefono i crediti vanno sotto */
+  gap: 32px;
+  padding: 48px 100px 56px;
+  border-top: 1px solid currentColor; /* la linea prende il colore del testo della pagina */
 }
 
 .footer p {
-  margin: 4px 0;
+  margin: 0;
 }
 
 .nome {
-  font-size: 24px;
-  font-weight: bold;
+  font-family: var(--titoli);
+  font-weight: 300;
+  font-size: 40px;
+  line-height: 1.1;
 }
 
 .descrizione {
-  font-size: 16px;
+  margin-top: 8px !important;
+  font-size: 12px;
   text-transform: uppercase;   /* tutto maiuscolo */
   letter-spacing: 3px;         /* lettere più distanziate */
 }
 
 .crediti {
-  margin-top: 24px;
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 1.7;
+  text-align: right;
   /* niente trasparenza: su alcuni colori (es. verde oliva) il testo non si leggerebbe più */
+}
+
+@media (max-width: 900px) {
+  .footer {
+    padding: 40px 24px;
+  }
+  .crediti {
+    text-align: left;
+  }
 }
 </style>

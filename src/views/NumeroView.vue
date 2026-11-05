@@ -5,12 +5,13 @@
 -->
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { numeri } from '../data/numeri.js'
 import { glossario } from '../data/glossario.js'
 import LatoRivista from '../components/LatoRivista.vue'
 
-const route = useRoute()
+const route = useRoute()     // l'indirizzo attuale (da leggere)
+const router = useRouter()   // il router (per cambiare l'indirizzo)
 
 // il numero che corrisponde all'indirizzo (es. /numero/00 → Il Matto)
 const numero = computed(() => numeri.find((n) => n.id === route.params.id))
@@ -38,6 +39,13 @@ function cambiaLato() {
   setTimeout(() => {
     // 2. a metà rotazione, quando non si vede, cambiamo lato
     latoAttuale.value = latoAttuale.value === 'A' ? 'B' : 'A'
+
+    // scriviamo il lato anche nell'indirizzo (/numero/00?lato=B).
+    // Così, se apri un approfondimento e torni indietro con la freccia del browser,
+    // ritrovi il lato in cui eri, e non sempre il lato A.
+    // "replace" = cambia l'indirizzo senza aggiungere un passo in più nella cronologia
+    router.replace({ query: { lato: latoAttuale.value } })
+
     fase.value = 'entra'         // 3. la pagina finisce di girare mostrando l'altro lato
 
     setTimeout(() => {
@@ -47,8 +55,14 @@ function cambiaLato() {
 }
 
 // se passi da un numero all'altro, si riparte dal lato A
+// (a meno che l'indirizzo dica ?lato=B)
 watch(() => route.params.id, () => {
-  latoAttuale.value = 'A'
+  latoAttuale.value = route.query.lato === 'B' ? 'B' : 'A'
+})
+
+// se cambia solo il ?lato= nell'indirizzo (stessa pagina), mostriamo quel lato
+watch(() => route.query.lato, (nuovo) => {
+  latoAttuale.value = nuovo === 'B' ? 'B' : 'A'
 })
 </script>
 

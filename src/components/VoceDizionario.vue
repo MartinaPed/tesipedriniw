@@ -11,13 +11,14 @@ defineProps({
 
 <template>
   <article class="voce">
-    <!-- la riga di testa: lemma, sillabe, grammatica, etimologia -->
-    <p class="testa">
-      <span class="lemma">{{ voce.parola }}</span>
-      <span class="sillabe">{{ voce.sillabe }}</span>
-      <span class="grammatica">{{ voce.grammatica }}</span>
+    <!-- il lemma: la parola, grande e in corsivo -->
+    <p class="lemma">{{ voce.parola }}</p>
+
+    <!-- la riga di dettagli: sillabe, grammatica, etimologia -->
+    <p class="dettagli">
+      {{ voce.sillabe }} · {{ voce.grammatica }}
       <!-- l'etimologia compare solo se c'è -->
-      <span v-if="voce.etimologia" class="etimologia">[{{ voce.etimologia }}]</span>
+      <template v-if="voce.etimologia"> · {{ voce.etimologia }}</template>
     </p>
 
     <!-- le definizioni numerate: <ol> numera da solo 1, 2, 3... -->
@@ -27,7 +28,7 @@ defineProps({
 
     <!-- l'esempio d'uso, preso dalla rivista -->
     <p v-if="voce.esempio" class="esempio">
-      <span class="rombo">◆</span> «{{ voce.esempio }}»
+      «{{ voce.esempio }}»
       <span class="fonte">— Arcanamente N°{{ voce.numero }}</span>
     </p>
   </article>
@@ -36,45 +37,34 @@ defineProps({
 <style scoped>
 /* carattere con grazie, come nei dizionari stampati */
 .voce {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--titoli);
   break-inside: avoid;          /* se la lista va su due colonne, la voce non si spezza */
-  padding: 24px 0;
-  border-top: 1px solid currentColor;
-}
-
-.testa {
-  margin: 0 0 12px;
+  padding-bottom: 64px;
 }
 
 .lemma {
-  font-size: 32px;
-  font-weight: bold;
-  margin-right: 12px;
-}
-
-.sillabe {
-  font-size: 18px;
-  margin-right: 12px;
-}
-
-.grammatica {
+  font-weight: 300;
   font-style: italic;
-  margin-right: 8px;
+  font-size: clamp(56px, 6vw, 80px);
+  line-height: 1;
+  margin: 0;
 }
 
-.etimologia {
-  font-size: 15px;
+.dettagli {
+  font-family: var(--testi);
+  font-size: 13px;
+  margin: 14px 0 18px;
 }
 
 .definizioni {
   margin: 0;
-  padding-left: 24px;
-  font-size: 17px;
-  line-height: 1.5;
+  padding-left: 28px;
+  font-size: 22px;
+  line-height: 1.4;
 }
 
 .definizioni li {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 /* se c'è una sola definizione non serve il numero 1 */
@@ -86,21 +76,16 @@ defineProps({
 }
 
 .esempio {
-  margin: 12px 0 0;
+  margin: 16px 0 0;
   font-style: italic;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-.rombo {
-  font-style: normal;
-  font-size: 12px;
-  margin-right: 4px;
+  font-size: 20px;
+  line-height: 1.4;
 }
 
 .fonte {
+  font-family: var(--testi);
   font-style: normal;
-  font-size: 13px;
+  font-size: 12px;
   white-space: nowrap;
 }
 </style>
