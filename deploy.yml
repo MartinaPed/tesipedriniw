@@ -1,0 +1,48 @@
+# ─────────────────────────────────────────────────────────────
+# PUBBLICAZIONE AUTOMATICA SU GITHUB PAGES
+# Ogni volta che fai "Sincronizza modifiche" (push sul ramo main),
+# GitHub costruisce il sito (npm run build) e lo mette online.
+# Il risultato lo vedi su github.com → il repository → scheda "Actions".
+# ─────────────────────────────────────────────────────────────
+name: Pubblica il sito
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:        # permette anche di avviarla a mano dalla scheda Actions
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# se fai due push di fila, la pubblicazione vecchia viene annullata
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  costruisci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci             # installa i pacchetti (come npm install)
+      - run: npm run build      # crea la cartella dist con il sito pronto
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  pubblica:
+    needs: costruisci
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

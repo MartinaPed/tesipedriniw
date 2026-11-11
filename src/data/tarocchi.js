@@ -46,17 +46,17 @@ export const tarocchi = [
     rovesciato: 'Indecisione, disarmonia. Stai rimandando una scelta che sai già di dover fare.'
   },
   {
-    id: 'carro', romano: 'VII', nome: 'Il Carro', immagine: '',
+    id: 'carro', romano: 'VII', nome: 'Il Carro', immagine: '/carte/carro.png',
     dritto: 'Vittoria, determinazione, movimento. Tieni salde le redini e vai avanti.',
     rovesciato: 'Perdita di controllo, direzione confusa. Forze opposte ti tirano da parti diverse.'
   },
   {
-    id: 'giustizia', romano: 'VIII', nome: 'La Giustizia', immagine: '',
+    id: 'giustizia', romano: 'VIII', nome: 'La Giustizia', immagine: '/carte/giustizia.png',
     dritto: 'Equilibrio, verità, conseguenze. Ciò che è giusto verrà riconosciuto.',
     rovesciato: 'Un giudizio sbilanciato. Stai evitando di guardare la tua parte di responsabilità.'
   },
   {
-    id: 'eremita', romano: 'IX', nome: "L'Eremita", immagine: '',
+    id: 'eremita', romano: 'IX', nome: "L'Eremita", immagine: '/carte/eremita.png',
     dritto: 'Solitudine scelta, ricerca interiore. Allontanati dal rumore per trovare la tua luce.',
     rovesciato: 'Isolamento, chiusura. La solitudine da rifugio è diventata prigione.'
   },
@@ -71,12 +71,12 @@ export const tarocchi = [
     rovesciato: 'Insicurezza, impulsività. L’istinto ha preso il sopravvento sulla calma.'
   },
   {
-    id: 'appeso', romano: 'XII', nome: "L'Appeso", immagine: '',
+    id: 'appeso', romano: 'XII', nome: "L'Appeso", immagine: '/carte/appeso.png',
     dritto: 'Sospensione, attesa, un nuovo punto di vista. Fermarsi non è perdere tempo: è guardare il mondo capovolto.',
     rovesciato: 'Stallo, sacrificio inutile. Stai aspettando qualcosa che non arriverà se non ti muovi.'
   },
   {
-    id: 'morte', romano: 'XIII', nome: 'La Morte', immagine: '',
+    id: 'morte', romano: 'XIII', nome: 'La Morte', immagine: '/carte/morte.png',
     dritto: 'Una fine che fa spazio. Qualcosa si chiude perché qualcos’altro possa cominciare: non uccide, fa passare.',
     rovesciato: 'Paura di lasciare andare. Ti aggrappi a ciò che è già finito.'
   },
@@ -86,7 +86,7 @@ export const tarocchi = [
     rovesciato: 'Eccesso, squilibrio. Stai esagerando in una direzione e perdendo il centro.'
   },
   {
-    id: 'diavolo', romano: 'XV', nome: 'Il Diavolo', immagine: '',
+    id: 'diavolo', romano: 'XV', nome: 'Il Diavolo', immagine: '/carte/diavolo.png',
     dritto: 'Desiderio, attaccamento, tentazione. Guarda cosa ti incatena: spesso è proprio ciò che credi di desiderare.',
     rovesciato: 'Liberazione. Le catene si allentano: stai cominciando a vedere cosa ti tratteneva.'
   },
