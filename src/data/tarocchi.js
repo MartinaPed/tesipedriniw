@@ -61,7 +61,7 @@ export const tarocchi = [
     rovesciato: 'Isolamento, chiusura. La solitudine da rifugio è diventata prigione.'
   },
   {
-    id: 'ruota', romano: 'X', nome: 'La Ruota della Fortuna', immagine: '',
+    id: 'ruota', romano: 'X', nome: 'La Ruota della Fortuna', immagine: '/carte/ruota.png',
     dritto: 'Un cambiamento, il destino che gira. Ciò che era fermo si rimette in moto.',
     rovesciato: 'Resistenza al cambiamento, un ciclo che si ripete. La ruota gira comunque: fermarla non serve.'
   },
@@ -81,7 +81,7 @@ export const tarocchi = [
     rovesciato: 'Paura di lasciare andare. Ti aggrappi a ciò che è già finito.'
   },
   {
-    id: 'temperanza', romano: 'XIV', nome: 'La Temperanza', immagine: '',
+    id: 'temperanza', romano: 'XIV', nome: 'La Temperanza', immagine: '/carte/temperanza.png',
     dritto: 'Misura, equilibrio, guarigione. Mescola gli opposti, senza fretta.',
     rovesciato: 'Eccesso, squilibrio. Stai esagerando in una direzione e perdendo il centro.'
   },
@@ -96,12 +96,12 @@ export const tarocchi = [
     rovesciato: 'Un crollo rimandato. Il cambiamento che temi è già in corso: resistergli lo rende solo più lento.'
   },
   {
-    id: 'stella', romano: 'XVII', nome: 'La Stella', immagine: '',
+    id: 'stella', romano: 'XVII', nome: 'La Stella', immagine: '/carte/stella.png',
     dritto: 'Speranza, ispirazione, rinnovamento. Dopo la tempesta, una luce che orienta.',
     rovesciato: 'Sfiducia, scoraggiamento. Hai perso di vista la tua stella, ma non si è spenta.'
   },
   {
-    id: 'luna', romano: 'XVIII', nome: 'La Luna', immagine: '',
+    id: 'luna', romano: 'XVIII', nome: 'La Luna', immagine: '/carte/luna.png',
     dritto: 'Sogni, intuizione, illusioni. Non tutto è come sembra: lasciati guidare dall’istinto, con prudenza.',
     rovesciato: 'La confusione si dirada. Una paura si rivela per quello che è.'
   },
