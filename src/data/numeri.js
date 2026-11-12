@@ -41,6 +41,15 @@ export const numeri = [
         // 5. APPROFONDIMENTI
         approfondimenti: [
           {
+            // rubrica "La carta": i dettagli con le ✦ sono in src/data/dettagli.js
+            id: 'volto-del-matto',
+            titolo: 'Il volto del Matto',
+            sottotitolo: 'La carta',
+            // TESTO PROVVISORIO: sostituiscilo con il tuo
+            anteprima: 'Lo zero, lo sguardo, il fagotto, il cane, il dirupo, il sole. Guarda la carta da vicino, un dettaglio alla volta.',
+            fascia: ['Lo zero', 'Lo sguardo', 'Il fagotto', 'Il cane', 'Il dirupo', 'Il sole']
+          },
+          {
             id: 'mazzo-colleoni',
             titolo: 'Il mazzo Colleoni',
             sottotitolo: 'Gli arcani dipinti a mano nel Quattrocento',

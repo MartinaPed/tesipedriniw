@@ -7,14 +7,14 @@
   <footer class="footer">
     <div>
       <p class="nome">Arcanamente</p>
-      <p class="descrizione">Collana di riviste di cultura esoterica</p>
+      <p class="descrizione">Collana di riviste di cultura esoterica, solo sul web</p>
     </div>
 
     <div class="crediti">
       <p>Progetto di tesi di Martina Pedrini</p>
       <p>Graphic Design · LABA Brescia</p>
-      <p>Relatore: prof. Iosca</p>
-      <p>Correlatore: prof. Molinari</p>
+      <p>Relatore: prof. Molinari</p>
+      <p>Correlatrice: prof.ssa Lazzarini</p>
     </div>
   </footer>
 </template>

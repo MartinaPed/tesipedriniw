@@ -11,10 +11,13 @@ import { numeri } from '../data/numeri.js'
 import SitoFooter from '../components/SitoFooter.vue'
 import MazzoColleoni from '../components/approfondimenti/MazzoColleoni.vue'
 import LetturaCarte from '../components/approfondimenti/LetturaCarte.vue'
+import CartaDaVicino from '../components/approfondimenti/CartaDaVicino.vue'
 
 // quale componente usare per ogni approfondimento
 // (quando ne crei uno nuovo, lo aggiungi qui)
+// CartaDaVicino è generico: lo usano tutti gli articoli della rubrica "La carta"
 const contenuti = {
+  'volto-del-matto': CartaDaVicino,
   'mazzo-colleoni': MazzoColleoni,
   'lettura-carte': LetturaCarte
 }
