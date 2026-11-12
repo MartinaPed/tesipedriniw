@@ -66,7 +66,7 @@ export const tarocchi = [
     rovesciato: 'Resistenza al cambiamento, un ciclo che si ripete. La ruota gira comunque: fermarla non serve.'
   },
   {
-    id: 'forza', romano: 'XI', nome: 'La Forza', immagine: '',
+    id: 'forza', romano: 'XI', nome: 'La Forza', immagine: '/carte/forza.png',
     dritto: 'Coraggio, pazienza, dominio di sé. Si vince piegandosi, non spezzando.',
     rovesciato: 'Insicurezza, impulsività. L’istinto ha preso il sopravvento sulla calma.'
   },
@@ -106,7 +106,7 @@ export const tarocchi = [
     rovesciato: 'La confusione si dirada. Una paura si rivela per quello che è.'
   },
   {
-    id: 'sole', romano: 'XIX', nome: 'Il Sole', immagine: '',
+    id: 'sole', romano: 'XIX', nome: 'Il Sole', immagine: '/carte/sole.png',
     dritto: 'Gioia, chiarezza, successo. Tutto si illumina, senza inganni.',
     rovesciato: 'Gioia rimandata, ottimismo eccessivo. La luce c’è, ma qualcosa la vela.'
   },

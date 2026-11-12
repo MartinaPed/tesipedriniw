@@ -165,7 +165,7 @@ export const numeri = [
   { id: '08', nome: 'La Giustizia', disponibile: false, carta: '/carte/giustizia.png' },
   { id: '09', nome: "L'Eremita", disponibile: false, carta: '/carte/eremita.png' },
   { id: '10', nome: 'La Ruota della Fortuna', disponibile: false, carta: '/carte/ruota.png' },
-  { id: '11', nome: 'La Forza', disponibile: false },
+  { id: '11', nome: 'La Forza', disponibile: false, carta: '/carte/forza.png' },
   { id: '12', nome: "L'Appeso", disponibile: false, carta: '/carte/appeso.png' },
   { id: '13', nome: 'La Morte', disponibile: false, carta: '/carte/morte.png' },
   { id: '14', nome: 'La Temperanza', disponibile: false, carta: '/carte/temperanza.png' },
@@ -173,7 +173,7 @@ export const numeri = [
   { id: '16', nome: 'La Torre', disponibile: false },
   { id: '17', nome: 'La Stella', disponibile: false, carta: '/carte/stella.png' },
   { id: '18', nome: 'La Luna', disponibile: false, carta: '/carte/luna.png' },
-  { id: '19', nome: 'Il Sole', disponibile: false },
+  { id: '19', nome: 'Il Sole', disponibile: false, carta: '/carte/sole.png' },
   { id: '20', nome: 'Il Giudizio', disponibile: false },
   { id: '21', nome: 'Il Mondo', disponibile: false }
 ]
