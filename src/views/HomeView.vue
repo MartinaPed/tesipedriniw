@@ -6,6 +6,7 @@ import { numeri } from '../data/numeri.js'
 import RiquadroNumero from '../components/RiquadroNumero.vue'
 import SitoFooter from '../components/SitoFooter.vue'
 import { glossario } from '../data/glossario.js'
+import { publicAssetUrl } from '../utils/publicAssetUrl.js'
 
 // In homepage mostriamo solo le prime 6 parole del glossario
 const anteprimaGlossario = glossario.slice(0, 6)
@@ -37,7 +38,12 @@ function vaiA(id) {
     </nav>
 
     <p class="sottotitolo">Collana di riviste di cultura esoterica</p>
-    <h1>Arcanamente</h1>
+    <!-- il logo al posto del titolo scritto.
+         Resta dentro <h1>: per Google e per i lettori di schermo è ancora il titolo
+         della pagina, e "alt" dice cosa c'è scritto nell'immagine -->
+    <h1>
+      <img :src="publicAssetUrl('/loghi/logonero-ritagliato.png')" alt="Arcanamente" class="logo-grande" />
+    </h1>
 
     <div class="sotto-titolo">
       <p class="intro">
@@ -160,12 +166,15 @@ function vaiA(id) {
 }
 
 .testata h1 {
-  font-family: var(--titoli);
-  font-weight: 300;                  /* 300 = sottile (Light) */
-  font-size: clamp(64px, 16vw, 228px);
-  line-height: 0.95;
-  letter-spacing: -0.02em;
-  margin: 16px 0 48px -0.05em;       /* il margine negativo allinea la A al testo sotto */
+  margin: 24px 0 48px;
+}
+
+/* il logo: largo quanto la pagina, ma mai più di 1100px sugli schermi grandi.
+   L'altezza si regola da sola, così il logo non si deforma */
+.logo-grande {
+  display: block;
+  width: min(100%, 1100px);
+  height: auto;
 }
 
 .sotto-titolo {
