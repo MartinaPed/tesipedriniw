@@ -43,7 +43,7 @@ body {
 
 .fascia-binario {
   display: inline-flex;
-  animation: scorri 40s linear infinite;
+  animation: scorri 60s linear infinite;   /* 60s = il tempo di un giro completo: più è alto, più va piano */
 }
 
 .fascia-binario span {

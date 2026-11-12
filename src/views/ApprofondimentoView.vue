@@ -175,7 +175,7 @@ h1 {
 }
 
 .fascia-binario {
-  animation-duration: 90s;
+  animation-duration: 135s;
 }
 
 @media (max-width: 900px) {

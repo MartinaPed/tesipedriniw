@@ -273,7 +273,7 @@ h1 {
 
 /* qui le frasi sono lunghe: la fascia scorre più piano che in homepage */
 .fascia-binario {
-  animation-duration: 120s;
+  animation-duration: 180s;
 }
 
 /* la fascia qui ha una riga sopra e una sotto */
